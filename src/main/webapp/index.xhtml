@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      >
+
+    <h:head>
+        <title>#{paisBean.titulo}</title>
+    </h:head>
+
+    <h:body>
+        <h:form id="frmmain">
+            <p:growl id="growl" showDetail="true"/>
+
+            <p:panel id="contenedor" header="Simple CRUD con Api-RestFull-Client con JAVA EE8 y Primefaces 7.0" style="display:block">
+
+                <p:toolbar>
+
+                    <p:toolbarGroup align="right">
+                        <!-- *-*-*-*-*-* CREAR REGISTRO *-*-*-*-*-*-*-* -->
+                        <p:commandButton  icon="fa fa-plus"  
+                                          title="Nuevo" 
+                                          value="Nuevo"
+                                          action="#{paisBean.instanciar}"
+                                          oncomplete="PF('dlgNuevo').show()" >
+                        </p:commandButton>
+
+
+                    </p:toolbarGroup>
+
+                </p:toolbar>
+
+
+                <p:dataTable id="tbPaises" var="obj" 
+                             value="#{paisBean.tb}" 
+                             paginator="true" 
+                             rows = "5" 
+                             rowsPerPageTemplate="5,10,15,20,25,30,40,50"
+                             style="width: 100%; font-size: 14px;"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+                    <p:column sortBy="#{obj.paisid}">
+                        <f:facet name="header">
+                            Id
+                        </f:facet>
+                        <h:outputText value="#{obj.paisid}"> </h:outputText> 
+                    </p:column>
+                    <p:column sortBy="#{obj.nomPais}">
+                        <f:facet name="header">
+                            Pais
+                        </f:facet>
+                        <h:outputText value="#{obj.nomPais}"> </h:outputText> 
+                    </p:column>
+
+                    <p:column sortBy="#{obj.fecIndependencia}">
+                        <f:facet name="header">
+                            Fec. independencia
+                        </f:facet>
+                        <h:outputText value="#{obj.fecIndependencia}"> </h:outputText> 
+                    </p:column>
+
+
+                    <p:column sortBy="#{obj.sn_monarquia}">
+                        <f:facet name="header">
+                            Es monarquia?
+                        </f:facet>
+                        <h:outputText value="#{obj.sn_monarquia}"> </h:outputText> 
+                    </p:column>
+
+                    <p:column headerText="Escoja su opcion">
+
+                        <!-- *-*-*-*-*-* ACTUALIZAR EDITAR *-*-*-*-*-*-*-* -->
+
+                        <p:commandButton id="btnUpdate" 
+                                         icon="fa fa-fw fa-edit" 
+                                         title="Editar"
+                                         update=":frmEditar"
+                                         oncomplete="PF('dlgModifica').show()" >
+                            <f:setPropertyActionListener value="#{obj}" 
+                                                         target="#{paisBean.tpaises}"/> 
+                        </p:commandButton>
+
+                        <!-- *-*-*-*-*-* ELIMINAR REGISTRO  *-*-*-*-*-*-*-*-*-* -->
+                        <p:commandButton id="btnEliminar"
+                                         icon="fa fa-fw fa-trash"
+                                         style="margin-left: 2px"
+                                         title="Borrar"
+                                         update=":frmEliminar"                                       
+                                         oncomplete="PF('dlgEliminar').show()" >
+                            <f:setPropertyActionListener value="#{obj}" 
+                                                         target="#{paisBean.tpaises}"/>
+
+                        </p:commandButton>
+
+                    </p:column>
+
+
+                </p:dataTable> 
+
+            </p:panel>
+
+        </h:form>
+
+        <h:form id="frmnuevo">
+            <p:dialog id="dlgNuevo" 
+                      header="Nuevo  Registro" 
+                      widgetVar="dlgNuevo" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false">
+
+                <h:panelGrid columns="2" style="margin:0 auto;">
+
+                    <h:outputText value="Id:" />
+                    <p:inputText value="#{paisBean.tpaises.paisid}" readonly="true" />
+
+                    <h:outputText value="Descripcion:" />
+                    <p:inputText value="#{paisBean.tpaises.nomPais}" />
+
+                    <h:outputText value="Fec. Independencia" />
+                    <p:inputText value="#{paisBean.tpaises.fecIndependencia}" />
+
+                    <h:outputText value="Es monarquia?" />
+                    <p:inputText value="#{paisBean.tpaises.sn_monarquia}" />
+
+                    <f:facet name="footer">
+
+                        <h:inputHidden value="#{paisBean.tpaises.paisid}"/>
+
+                        <p:commandButton id="btnNuevoAceptar" 
+                                         value="Guardar"
+                                         action="#{paisBean.cmd_crear_registro}"
+                                         style="width: 40%"
+                                         oncomplete="PF('dlgNuevo').hide()"  
+                                         update=":frmmain:contenedor , :frmmain:growl"
+                                         icon="fa fa-check-circle" title="Guardar"/>
+
+                        <p:commandButton id="btnNuevoCancelar" 
+                                         value="Cancelar"
+                                         style="width: 40%; margin-left: 2px"
+                                         update=":frmmain"
+                                         oncomplete="PF('dlgNuevo').hide()" icon="fa fa-home">
+                        </p:commandButton>
+
+                    </f:facet>
+
+                </h:panelGrid>
+
+            </p:dialog> 
+        </h:form>
+
+        <!-- *-*-*-*-*-* FORMULARIO PARA MODIFICAR UN REGISTRO *-*-*-*-*-*-*-*-*-* -->
+
+        <h:form id="frmEditar">
+
+            <p:dialog id="dlgEdita" 
+                      header="Actualizar Registro" 
+                      widgetVar="dlgModifica" modal="true" 
+                      showEffect="fade" hideEffect="fade" resizable="false">
+
+                <h:panelGrid columns="2" style="margin:0 auto;">
+
+                    <h:outputText value="Id:" />
+                    <p:inputText value="#{paisBean.tpaises.paisid}" readonly="true" />
+
+                    <h:outputText value="Descripcion:" />
+                    <p:inputText value="#{paisBean.tpaises.nomPais}" />
+
+                    <h:outputText value="Fec. Independencia" />
+                    <p:inputText value="#{paisBean.tpaises.fecIndependencia}" />
+
+                    <h:outputText value="Es monarquia?" />
+                    <p:inputText value="#{paisBean.tpaises.sn_monarquia}" />
+
+                    <f:facet name="footer">
+
+                        <h:inputHidden value="#{paisBean.tpaises.paisid}"/>
+
+                        <p:commandButton id="btnUpdateAceptar" 
+                                         value="Guardar"
+                                         actionListener="#{paisBean.cmd_actualizar_registro}"
+                                         style="width: 40%"
+                                         update=":frmmain:contenedor , :frmmain:growl"
+                                         oncomplete="PF('dlgModifica').hide()"  
+                                         icon="fa fa-check-circle" title="Guardar"/>
+
+                        <p:commandButton id="btnUpdateCancelar" 
+                                         value="Cancelar"
+                                         style="width: 40%; margin-left: 2px"
+                                         update=":frmmain"
+                                         oncomplete="PF('dlgModifica').hide()" icon="fa fa-home">
+                        </p:commandButton>
+
+                    </f:facet>
+
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+
+        <h:form id="frmEliminar">
+
+            <p:dialog id="dlgEliminar" 
+                      header="Eliminar Registro" 
+                      widgetVar="dlgEliminar" 
+                      modal="true" 
+                      showEffect="fade" 
+                      hideEffect="fade" 
+                      resizable="false">
+
+                <h:panelGrid columns="2" style="margin:0 auto;">
+
+                    <h:outputText value="Id:" />
+                    <p:inputText value="#{paisBean.tpaises.paisid}" readonly="true" />
+
+                    <h:outputText value="Descripcion:" />
+                    <p:inputText value="#{paisBean.tpaises.nomPais}" readonly="true" />
+
+                    <h:outputText value="Fec. Independencia" />
+                    <p:inputText value="#{paisBean.tpaises.fecIndependencia}" readonly="true" />
+
+                    <h:outputText value="Es monarquia?" />
+                    <p:inputText value="#{paisBean.tpaises.sn_monarquia}" readonly="true" />
+
+                    <f:facet name="footer">
+
+                        <h:inputHidden value="#{paisBean.tpaises.paisid}"/>
+
+                        <p:commandButton id="btnEliminaAceptar" 
+                                         value="Confirmar" 
+                                         action="#{paisBean.cmd_borrar_registro}"
+                                         update=":frmmain:contenedor , :frmmain:growl"
+                                         style="width: 40%;"
+                                         oncomplete="PF('dlgEliminar').hide()"  
+                                         icon="fa fa-check-circle" title="Guardar"/>
+
+                        <p:commandButton id="btnEliminaCancelar" 
+                                         value="Cancelar" 
+                                         update=":frmmain"
+                                         style="width: 40%; margin-left: 2px"
+                                         icon="fa fa-home"
+                                         oncomplete="PF('dlgEliminar').hide()">
+                        </p:commandButton>
+
+                    </f:facet>
+
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+
+    </h:body>
+</html>
