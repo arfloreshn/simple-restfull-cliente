@@ -13,20 +13,20 @@
 
 # TABLA DE REGISTROS
 <p>
-  <img src="https://github.com/arfloreshn/planilla/blob/master/src/main/webapp/resources/images/fondos/pl01.png" width="100%" height="500" title="Abm de empleados">
+  <img src="https://github.com/arfloreshn/simple-restfull-cliente/blob/master/resources/foto1.jpg" width="100%" height="500" title="Abm de mantenimiento">
 </p>
 
 # APERTURA DE NUEVOS REGISTROS
 <p>
-  <img src="https://github.com/arfloreshn/planilla/blob/master/src/main/webapp/resources/images/fondos/pl07.png" width="100%" height="500" title="Abm de mantenimiento">
+  <img src="https://github.com/arfloreshn/simple-restfull-cliente/blob/master/resources/foto2.jpg" width="100%" height="500" title="Abm de mantenimiento">
 </p>
 
 # ACTUALIZACION DE REGISTROS
 <p>
-  <img src="https://github.com/arfloreshn/planilla/blob/master/src/main/webapp/resources/images/fondos/pl03.png" width="100%" height="500" title="Abm de mantenimiento">
+  <img src="https://github.com/arfloreshn/simple-restfull-cliente/blob/master/resources/foto3.jpg" width="100%" height="500" title="Abm de mantenimiento">
 </p>
 
 # BORRAR REGISTROS
 <p>
-  <img src="https://github.com/arfloreshn/planilla/blob/master/src/main/webapp/resources/images/fondos/pl04.png" width="100%" height="500" title="Maestro/detalle">
+  <img src="https://github.com/arfloreshn/simple-restfull-cliente/blob/master/resources/foto4.jpg" width="100%" height="500" title="Abm de mantenimiento">
 </p>
